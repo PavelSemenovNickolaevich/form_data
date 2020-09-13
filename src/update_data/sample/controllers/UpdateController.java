@@ -46,7 +46,7 @@ public class UpdateController {
         }
 
         change_data_id.setOnAction(event -> {
-            String EMAIL_PATTERN = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
+            String EMAIL_PATTERN = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
             Pattern p = Pattern.compile(EMAIL_PATTERN);
 
 
@@ -61,13 +61,20 @@ public class UpdateController {
                 return;
             }
             String password = md5String(password_id.getCharacters().toString());
+            String email = email_id.getCharacters().toString();
             try {
+                if(p.matcher(email).matches()) {
 
-                db.updateUser(login_id.getCharacters().toString(), email_id.getCharacters().toString(), password);
-                login_id.setText("");
-                password_id.setText("");
-                email_id.setText("Ready");
-                change_data_id.setText("Готово");
+                    db.updateUser(login_id.getCharacters().toString(), email_id.getCharacters().toString(), password);
+                    login_id.setText("");
+                    password_id.setText("");
+                    email_id.setText("");
+                    change_data_id.setText("Готово");
+                } else  {
+                    email_id.setStyle("-fx-border-color: black");
+                    change_data_id.setText("Введен некорректный email");
+                    return;
+                }
 
 
             } catch (SQLException throwables) {
