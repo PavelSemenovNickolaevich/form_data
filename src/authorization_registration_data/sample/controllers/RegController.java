@@ -1,13 +1,22 @@
 package authorization_registration_data.sample.controllers;
 
 import authorization_registration_data.sample.DB;
+import authorization_registration_data.sample.User;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -98,15 +107,28 @@ public class RegController {
             try {
                 boolean isReg = db.authUser(login_auth.getCharacters().toString(), password);
                 if (isReg) {
+                    FileOutputStream fos = new FileOutputStream("user.settings");
+                    ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+                    oos.writeObject(new User(login_auth.getCharacters().toString()));
+                    oos.close();
                     login_auth.setText("");
                     password_auth.setText("");
                     btn_auth.setText("Ready");
+
+                    Parent root = FXMLLoader.load(getClass().getResource("/authorization_registration_data/sample/scenes/main.fxml"));
+                    Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                    primaryStage.setTitle("Кабинет пользователя");
+                    primaryStage.setScene(new Scene(root, 600, 400));
+                    primaryStage.show();
                 } else {
                     btn_auth.setText("Not found");
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         });
