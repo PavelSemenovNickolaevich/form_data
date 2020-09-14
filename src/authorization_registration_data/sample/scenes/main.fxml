@@ -3,7 +3,9 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #343434;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="authorization_registration_data.sample.controllers.MainController">
@@ -21,5 +23,18 @@
                 <Cursor fx:constant="HAND" />
             </cursor>
         </Button>
+      <ScrollPane focusTraversable="false" hbarPolicy="NEVER" layoutY="118.0" prefHeight="282.0" prefWidth="600.0" stylesheets="@../styles/style.css">
+         <content>
+            <VBox fx:id="paneVBox" prefHeight="283.0" prefWidth="599.0" style="-fx-background-color: #343434;" />
+         </content>
+      </ScrollPane>
+      <Button fx:id="btn_add_article" layoutX="19.0" layoutY="22.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="158.0" stylesheets="@../styles/style.css" text="Добавить статью" textFill="#f5f2f2">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
     </children>
 </AnchorPane>
