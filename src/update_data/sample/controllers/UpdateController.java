@@ -37,7 +37,6 @@ public class UpdateController {
 //        });
 
         try {
-            login_id.setText(String.valueOf(db.getLogin()));
             email_id.setText(String.valueOf(db.getEmail()));
         } catch (SQLException throwables) {
             throwables.printStackTrace();

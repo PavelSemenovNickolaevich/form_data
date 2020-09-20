@@ -33,19 +33,27 @@ public class MainController {
     private DB db = new DB();
 
 
+    public static int id =0;
+
+
+//   // public static String getId() {
+//        return String.valueOf(id);
+//    }
+
     @FXML
     void initialize() throws IOException, SQLException, ClassNotFoundException {
         ResultSet res = db.getArticles();
+       // String resId = db.getId();
 
-        Node[] nodes = new Node[10];
+        //  Node[] nodes = new Node[10];
         while (res.next()) {
             Node node = null;
             node = FXMLLoader.load(getClass().getResource("/authorization_registration_data/sample/scenes/article.fxml"));
 
-            Label title  = (Label) node.lookup("#title");
+            Label title = (Label) node.lookup("#title");
             title.setText(res.getString("title"));
 
-            Label intro  = (Label) node.lookup("#intro");
+            Label intro = (Label) node.lookup("#intro");
             intro.setText(res.getString("intro"));
 
             final Node nodeSet = node;
@@ -56,11 +64,30 @@ public class MainController {
             node.setOnMouseExited(event -> {
                 nodeSet.setStyle("-fx-background-color: #343434");
             });
+            node.setId(res.getString("id"));
             HBox hBox = new HBox();
             hBox.getChildren().add(node);
             hBox.setAlignment(Pos.BASELINE_CENTER);
             paneVBox.getChildren().add(hBox);
             paneVBox.setSpacing(10);
+            Node finalNode = node;
+            node.setOnMouseClicked(event -> {
+
+                try {
+                    id = Integer.parseInt(nodeSet.getId());
+                    System.out.println(id);
+                    Parent root = FXMLLoader.load(getClass().getResource("/authorization_registration_data/sample/scenes/showArticle.fxml"));
+                    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    primaryStage.setTitle("Статья");
+                    primaryStage.setScene(new Scene(root, 600, 400));
+                    primaryStage.setResizable(false);
+                    primaryStage.show();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            });
         }
         btn_exit.setOnAction(event -> {
 
@@ -85,7 +112,7 @@ public class MainController {
         });
 
         btn_add_article.setOnAction(event -> {
-           Parent root = null;
+            Parent root = null;
             try {
                 root = FXMLLoader.load(getClass().getResource("/authorization_registration_data/sample/scenes/addArticle.fxml"));
                 Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -97,5 +124,7 @@ public class MainController {
             }
 
         });
+
+
     }
 }

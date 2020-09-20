@@ -1,6 +1,11 @@
 package authorization_registration_data.sample;
 
+import authorization_registration_data.sample.controllers.MainController;
+import javafx.scene.Node;
+
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DB {
 
@@ -49,7 +54,7 @@ public class DB {
     }
 
     public ResultSet getArticles() throws SQLException, ClassNotFoundException {
-        String sql  = "SELECT `title`, `intro` FROM `articles`";
+        String sql  = "SELECT `title`, `intro`, `id` FROM `articles`";
         Statement statement = getDbConnection().createStatement();
         ResultSet res = statement.executeQuery(sql);
         return res;
@@ -63,6 +68,43 @@ public class DB {
         prSt.setString(3, text);
         prSt.setInt(4, 15);
         prSt.executeUpdate();
+    }
+    public String getId() throws SQLException, ClassNotFoundException {
+        String sql  = "SELECT `id` FROM `articles`";
+        Statement statement = getDbConnection().createStatement();
+        ResultSet res = statement.executeQuery(sql);
+       // return res;
+        while (res.next()) {
+            return res.getString("id");
+        }
+        return null;
+    }
+
+    public String getText(String id) throws SQLException, ClassNotFoundException {
+        String sql = "SELECT `text` FROM `articles` WHERE `id` = " + MainController.id;
+        Statement statement = getDbConnection().createStatement();
+        ResultSet res = statement.executeQuery(sql);
+        while (res.next()) {
+            return res.getString("text");
+        }
+
+        return null;
 
     }
+
+    public String getTitle(String id) throws SQLException, ClassNotFoundException {
+        String sql = "SELECT `title` FROM `articles` WHERE `id` = " + MainController.id;
+        Statement statement = getDbConnection().createStatement();
+        ResultSet res = statement.executeQuery(sql);
+        while (res.next()) {
+            return res.getString("title");
+        }
+
+        return null;
+       // return res;
+
+
+    }
+
+
 }
